@@ -16,6 +16,22 @@ module.exports.getUser = async (req, res) => {
   }
 };
 
+module.exports.updateUserProfile = async (req, res, next) => {
+  try {
+    const user = User.findOneAndUpdate({
+      _id: req.user._id,
+    }, { ...req.body }, {
+      new: true, runValidators: true,
+    });
+    if (!user) {
+      throw new NotCorrectDataError('Inputed data error');
+    }
+    res.status(200).send(await user);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports.createUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -24,9 +40,7 @@ module.exports.createUser = async (req, res, next) => {
     }
     await bcrypt.hash(password, SOLT_ROUNDS)
       .then((hash) => User.create({ ...req.body, password: hash }))
-      .then((createUser) => {
-        res.status(200).send(createUser);
-      });
+      .then((createUser) => res.status(200).send(createUser));
   } catch (err) {
     if (err.code === UNIQUE_EMAIL_ERROR) {
       next(new NotUniqueDataError('User with this email already exists'));
