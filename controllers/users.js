@@ -10,12 +10,12 @@ const SOLT_ROUNDS = 10;
 const UNIQUE_EMAIL_ERROR = 11000;
 const { JWT_SECRET_PHRASE, NODE_ENV } = process.env;
 
-module.exports.getUser = async (req, res) => {
+module.exports.getUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id);
     res.status(200).send(await user);
   } catch (err) {
-    console.log(err);
+    next(err);
   }
 };
 

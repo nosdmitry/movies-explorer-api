@@ -57,7 +57,8 @@ const movieSchema = mongoose.Schema({
     uniqe: true,
   },
   movideId: {
-    reuqreid: true,
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
     uniqe: true,
   },
   nameRU: {
