@@ -12,7 +12,6 @@ const { JWT_SECRET_PHRASE, NODE_ENV } = process.env;
 
 module.exports.getUser = async (req, res) => {
   try {
-    console.log('in');
     const user = await User.findById(req.user._id);
     res.status(200).send(await user);
   } catch (err) {
