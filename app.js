@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const authRouter = require('./routes/auth');
 const userRoutes = require('./routes/users');
 
 const app = express();
@@ -10,7 +11,16 @@ const {
 } = process.env;
 
 app.use(express.json());
+app.use(authRouter);
 app.use(userRoutes);
+
+app.use((err, req, res, next) => {
+  const { statusCode = 500, message } = err;
+  res.status(statusCode).send({
+    message: statusCode === 500 ? 'Server error' : message,
+  });
+  next();
+});
 
 async function main() {
   try {
