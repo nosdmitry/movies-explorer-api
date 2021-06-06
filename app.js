@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const authRouter = require('./routes/auth');
 const moviesRouter = require('./routes/movies');
 const userRoutes = require('./routes/users');
+const { errorsHandler } = require('./middlewares/errorsHandler');
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(authRouter);
 app.use(userRoutes);
 app.use(moviesRouter);
 
+app.use(errorsHandler);
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
   res.status(statusCode).send({
