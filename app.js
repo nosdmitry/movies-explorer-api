@@ -4,6 +4,7 @@ const authRouter = require('./routes/auth');
 const moviesRouter = require('./routes/movies');
 const userRoutes = require('./routes/users');
 const { errorsHandler } = require('./middlewares/errorsHandler');
+const routes = require('./routes');
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(authRouter);
 app.use(userRoutes);
 app.use(moviesRouter);
+app.use(routes);
 
 app.use(errorsHandler);
 app.use((err, req, res, next) => {
