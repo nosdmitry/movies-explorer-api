@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { errors } = require('../constants');
 const NotAuthorizedError = require('../errors/NotAuthorizedError');
 
 const { JWT_SECRET_PHRASE, NODE_ENV } = process.env;
@@ -8,11 +9,11 @@ module.exports = async (req, res, next) => {
   try {
     const { authorization } = req.headers;
     if (!authorization || !authorization.startsWith('Bearer ')) {
-      throw new NotAuthorizedError('Access denied, authorization required');
+      throw new NotAuthorizedError(errors.authorizationRequired);
     }
     const token = authorization.replace('Bearer ', '');
     if (!token) {
-      throw new NotAuthorizedError('Access denied, authorization required');
+      throw new NotAuthorizedError(errors.authorizationRequired);
     }
     payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET_PHRASE : 'dev-secret');
   } catch (err) {

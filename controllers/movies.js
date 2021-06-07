@@ -1,6 +1,7 @@
 const { Movie } = require('../models/movie');
 const NotFoundError = require('../errors/NotFoundError');
 const NotAuthorizedError = require('../errors/NotAuthorizedError');
+const { errors, messages } = require('../constants');
 
 module.exports.getMovies = async (req, res, next) => {
   try {
@@ -25,13 +26,13 @@ module.exports.deleteMovie = async (req, res, next) => {
   try {
     const movie = await Movie.findOne({ _id: req.params.movieId });
     if (!movie) {
-      throw new NotFoundError('Requested movie was not found');
+      throw new NotFoundError(errors.movieNotFound);
     }
     if (movie.owner.toString() === req.user._id) {
       movie.deleteOne();
-      res.status(200).send({ message: 'Successfylly deleted' });
+      res.status(200).send({ message: messages.deleted });
     } else {
-      throw new NotAuthorizedError('Permission denied. Only movies that was added by current user alowed to delete');
+      throw new NotAuthorizedError(errors.movieDeletePermissionError);
     }
   } catch (err) {
     next(err);

@@ -7,6 +7,7 @@ const { MONGO_URL, PORT } = require('./config');
 const { errorsHandler } = require('./middlewares/errorsHandler');
 const routes = require('./routes');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { errors, messages } = require('./constants');
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -31,7 +32,7 @@ app.use(errorsHandler);
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
   res.status(statusCode).send({
-    message: statusCode === 500 ? 'Server error' : message,
+    message: statusCode === 500 ? errors.serverError : message,
   });
   next();
 });
@@ -44,13 +45,13 @@ async function main() {
       useFindAndModify: false,
       useUnifiedTopology: true,
     });
-    console.log('DB connected');
+    console.log(messages.dbConnected);
 
     await app.listen(PORT, () => {
-      console.log(`App listening on port ${PORT}`);
+      console.log(messages.appListening, PORT);
     });
   } catch (err) {
-    console.log(`Connection failed, ${err}`);
+    console.log(errors.connectionError, err);
   }
 }
 

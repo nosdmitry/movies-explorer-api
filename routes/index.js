@@ -4,6 +4,7 @@ const auth = require('../middlewares/auth');
 const { createUser, login } = require('../controllers/users');
 const moviesRouter = require('./movies');
 const userRoutes = require('./users');
+const { errors } = require('../constants');
 
 const routes = express.Router();
 
@@ -19,7 +20,7 @@ routes.use('/movies', moviesRouter);
 
 routes.get('*', async (req, res, next) => {
   try {
-    throw new NotFoundError('404. Page not found');
+    throw new NotFoundError(errors.pageNotFound);
   } catch (err) {
     next(err);
   }

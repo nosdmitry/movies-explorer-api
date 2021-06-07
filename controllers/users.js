@@ -5,6 +5,7 @@ const NotCorrectDataError = require('../errors/NotCorrectDataError');
 const NotUniqueDataError = require('../errors/NotUniqueDataError');
 const NotCorrectPasswordError = require('../errors/NotCorrectPasswordError');
 const { User } = require('../models/user');
+const { errors } = require('../constants');
 
 const SOLT_ROUNDS = 10;
 const UNIQUE_EMAIL_ERROR = 11000;
@@ -27,7 +28,7 @@ module.exports.updateUserProfile = async (req, res, next) => {
       new: true, runValidators: true,
     });
     if (!user) {
-      throw new NotCorrectDataError('Inputed data error');
+      throw new NotCorrectDataError(errors.inputedDataError);
     }
     res.status(200).send(await user);
   } catch (err) {
@@ -39,14 +40,14 @@ module.exports.createUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     if (!validator.isEmail(email)) {
-      throw new NotCorrectDataError('Email is not correct');
+      throw new NotCorrectDataError(errors.emailIsNotCorrectError);
     }
     await bcrypt.hash(password, SOLT_ROUNDS)
       .then((hash) => User.create({ ...req.body, password: hash }))
       .then((createUser) => res.status(200).send(createUser));
   } catch (err) {
     if (err.code === UNIQUE_EMAIL_ERROR) {
-      next(new NotUniqueDataError('User with this email already exists'));
+      next(new NotUniqueDataError(errors.emailIsNotUniqError));
     }
     next(err);
   }
@@ -56,20 +57,20 @@ module.exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      throw new NotCorrectDataError('Email or passwod was not send');
+      throw new NotCorrectDataError(errors.authDataWasNotSend);
     }
     if (!validator.isEmail(email)) {
-      throw new NotCorrectDataError('Email is not correct');
+      throw new NotCorrectDataError(errors.emailIsNotCorrectError);
     }
     await User.findOne({ email }).select('+password')
       .then((user) => {
         if (!user) {
-          throw new NotCorrectPasswordError('Email or password is not correct');
+          throw new NotCorrectPasswordError(errors.authDataFailed);
         }
         bcrypt.compare(password, user.password)
           .then((matched) => {
             if (!matched) {
-              throw new NotCorrectPasswordError('Email or password is not correct');
+              throw new NotCorrectPasswordError(errors.authDataFailed);
             }
             const token = jwt.sign(
               { _id: user._id },
