@@ -5,9 +5,9 @@ const auth = require('../middlewares/auth');
 
 const moviesRouter = express.Router();
 
-moviesRouter.get('/movies', auth, getMovies);
+moviesRouter.get('/', auth, getMovies);
 
-moviesRouter.post('/movies', auth, celebrate({
+moviesRouter.post('/', auth, celebrate({
   body: Joi.object().keys({
     country: Joi.string().required(),
     director: Joi.string().required(),
@@ -23,6 +23,6 @@ moviesRouter.post('/movies', auth, celebrate({
   }),
 }), addMovie);
 
-moviesRouter.delete('/movies/:movieId', auth, deleteMovie);
+moviesRouter.delete('/:movieId', auth, deleteMovie);
 
 module.exports = moviesRouter;
