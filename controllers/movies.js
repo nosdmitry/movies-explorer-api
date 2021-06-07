@@ -4,7 +4,7 @@ const NotAuthorizedError = require('../errors/NotAuthorizedError');
 
 module.exports.getMovies = async (req, res, next) => {
   try {
-    const movies = await Movie.find({});
+    const movies = await Movie.find({ owner: req.user._id });
     res.status(200).send(movies);
   } catch (err) {
     next(err);
@@ -23,7 +23,7 @@ module.exports.addMovie = async (req, res, next) => {
 
 module.exports.deleteMovie = async (req, res, next) => {
   try {
-    const movie = await Movie.findOne({ movieId: req.params.movieId });
+    const movie = await Movie.findOne({ _id: req.params.movieId });
     if (!movie) {
       throw new NotFoundError('Requested movie was not found');
     }
