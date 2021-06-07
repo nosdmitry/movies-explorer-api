@@ -3,13 +3,9 @@ const mongoose = require('mongoose');
 const { errorsHandler } = require('./middlewares/errorsHandler');
 const routes = require('./routes');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { MONGO_URL, PORT } = require('./config');
 
 const app = express();
-
-const {
-  PORT = 3000,
-  MONGO_URL = 'mongodb://localhost:27017/bitfilmsdb',
-} = process.env;
 
 app.use(express.json());
 
