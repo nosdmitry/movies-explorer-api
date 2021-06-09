@@ -44,7 +44,10 @@ module.exports.createUser = async (req, res, next) => {
     }
     await bcrypt.hash(password, SOLT_ROUNDS)
       .then((hash) => User.create({ ...req.body, password: hash }))
-      .then((createUser) => res.status(200).send(createUser));
+      .then((createUser) => {
+        createUser.password = ''; // eslint-disable-line no-param-reassign
+        res.status(200).send(createUser);
+      });
   } catch (err) {
     if (err.code === UNIQUE_EMAIL_ERROR) {
       next(new NotUniqueDataError(errors.emailIsNotUniqError));
