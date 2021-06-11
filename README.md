@@ -1,3 +1,5 @@
 # movies-explorer-api
 
-api.final.nomoredomains.monster
+К серверу можно обратиться по следующему адресу:
+
+https://api.final.nomoredomains.monster

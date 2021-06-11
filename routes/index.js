@@ -4,12 +4,13 @@ const { createUser, login } = require('../controllers/users');
 const pageError = require('./errorRouter');
 const moviesRouter = require('./movies');
 const userRoutes = require('./users');
+const { signupValidation, signinValidation } = require('../middlewares/validations');
 
 const routes = express.Router();
 
-routes.post('/signup', createUser);
+routes.post('/signup', signupValidation, createUser);
 
-routes.post('/signin', login);
+routes.post('/signin', signinValidation, login);
 
 routes.use(auth);
 
