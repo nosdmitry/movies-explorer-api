@@ -1,7 +1,7 @@
 const { celebrate, Joi } = require('celebrate');
 const express = require('express');
 const { default: validator } = require('validator');
-const { errors } = require('../constants');
+const { errors } = require('../config/constants');
 const { getMovies, addMovie, deleteMovie } = require('../controllers/movies');
 const auth = require('../middlewares/auth');
 

@@ -1,6 +1,6 @@
 const validator = require('validator');
 const mongoose = require('mongoose');
-const { errors } = require('../constants');
+const { errors } = require('../config/constants');
 
 const userSchema = new mongoose.Schema({
   name: {

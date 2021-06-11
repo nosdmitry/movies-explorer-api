@@ -1,4 +1,4 @@
-const { errors } = require('../constants');
+const { errors } = require('../config/constants');
 const NotFoundError = require('../errors/NotFoundError');
 
 module.exports.pageError = async (req, res, next) => {

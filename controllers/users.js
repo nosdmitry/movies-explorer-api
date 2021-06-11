@@ -5,7 +5,7 @@ const NotCorrectDataError = require('../errors/NotCorrectDataError');
 const NotUniqueDataError = require('../errors/NotUniqueDataError');
 const NotCorrectPasswordError = require('../errors/NotCorrectPasswordError');
 const { User } = require('../models/user');
-const { errors } = require('../constants');
+const { errors } = require('../config/constants');
 
 const SOLT_ROUNDS = 10;
 const UNIQUE_EMAIL_ERROR = 11000;
