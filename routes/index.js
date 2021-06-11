@@ -1,10 +1,9 @@
 const express = require('express');
-const NotFoundError = require('../errors/NotFoundError');
 const auth = require('../middlewares/auth');
 const { createUser, login } = require('../controllers/users');
+const pageError = require('./errorRouter');
 const moviesRouter = require('./movies');
 const userRoutes = require('./users');
-const { errors } = require('../constants');
 
 const routes = express.Router();
 
@@ -18,12 +17,6 @@ routes.use('/users', userRoutes);
 
 routes.use('/movies', moviesRouter);
 
-routes.get('*', async (req, res, next) => {
-  try {
-    throw new NotFoundError(errors.pageNotFound);
-  } catch (err) {
-    next(err);
-  }
-});
+routes.use('*', pageError);
 
 module.exports = routes;
