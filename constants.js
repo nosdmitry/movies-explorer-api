@@ -15,12 +15,18 @@ const errors = {
   inputedDataError: 'Inputed data error',
   emailIsNotCorrectError: 'Email is not correct',
   emailIsNotUniqError: 'User with this email already exists',
+  imageUrlIsNotValid: 'Image URL is not valid',
+  trailerUrlIsNotValid: 'Trailer URL is not valid',
+  tumbUrlIsNotValid: 'Thumb URL is not valid',
   authDataWasNotSend: 'Email or passwod was not send',
   authDataFailed: 'Email or password is not correct',
   authorizationRequired: 'Access denied, authorization required',
   pageNotFound: 'Page not found, 404',
   serverError: 'Server error',
   connectionError: 'Conection failed',
+  deleteMovieNotCorrectData: 'Inputed data is not correct',
 };
 
-module.exports = { errors, messages, logs };
+module.exports = {
+  errors, messages, logs,
+};

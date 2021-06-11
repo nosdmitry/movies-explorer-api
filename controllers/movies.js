@@ -2,6 +2,7 @@ const { Movie } = require('../models/movie');
 const NotFoundError = require('../errors/NotFoundError');
 const NotAuthorizedError = require('../errors/NotAuthorizedError');
 const { errors, messages } = require('../constants');
+const NotCorrectDataError = require('../errors/NotCorrectDataError');
 
 module.exports.getMovies = async (req, res, next) => {
   try {
@@ -35,6 +36,9 @@ module.exports.deleteMovie = async (req, res, next) => {
       throw new NotAuthorizedError(errors.movieDeletePermissionError);
     }
   } catch (err) {
+    if (err.name === 'CastError') {
+      next(new NotCorrectDataError(errors.deleteMovieNotCorrectData));
+    }
     next(err);
   }
 };
