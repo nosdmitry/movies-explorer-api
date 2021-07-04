@@ -15,9 +15,10 @@ const limiter = rateLimit(limiterConfig);
 const app = express();
 app.use(helmet());
 app.use(cors({
-  origin: 'https://final.nomoredomains.monster/register',
+  origin: 'https://final.nomoredomains.monster',
   methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
   allowedHeaders: ['Origin', 'Access-Control-Allow-Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+  credentials: true,
 }));
 
 app.use(requestLogger);
