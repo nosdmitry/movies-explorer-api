@@ -18,6 +18,6 @@ routes.use('/users', userRoutes);
 
 routes.use('/movies', moviesRouter);
 
-routes.use('*', pageError);
+routes.use('/*', pageError);
 
 module.exports = routes;
